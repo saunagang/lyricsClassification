@@ -1,1 +1,2 @@
 - https://medium.com/@heyamit10/fine-tuning-bert-for-classification-a-practical-guide-b8c1c56f252c
+- https://medium.com/data-science/what-is-label-smoothing-108debd7ef06

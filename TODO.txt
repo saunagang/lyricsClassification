@@ -1,0 +1,4 @@
+- stable project so anyone can use it out of the box (no gdrive, ready pip installs)
+- maybe do a training run on all permutations of the genres to see which are max compatible
+-check out which tokens are the most important 
+-maybe convert to python module, and then use in notebook?

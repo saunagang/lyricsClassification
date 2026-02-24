@@ -2,3 +2,4 @@
 - maybe do a training run on all permutations of the genres to see which are max compatible
 -check out which tokens are the most important 
 -maybe convert to python module, and then use in notebook?
+-tune the learning aspect more (different learning rate, early stopping, hyperparameter?)

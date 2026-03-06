@@ -119,7 +119,7 @@ def initialiseTrainer(model : str, training_args : TrainingArguments, training_d
 #DUMP METRICS FOR FURTHER ANALYSIS
 def dump_metrics_to_csv(metrics, basepath: str):
     #CREATE PATH
-    out_path = Path(f"{basepath}/evaluation_metrics.json")
+    out_path = Path(f"{basepath}/Evaluation_metrics.json")
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     with out_path.open("w", encoding="utf-8") as f:
@@ -134,7 +134,7 @@ def evaluation_pipeline(trainer : Trainer ,evaluation_set : Dataset,name : str,d
         pass
     #EVALUATE THE MODEL
     predictions = trainer.predict(evaluation_set['test']) 
-    dump_metrics_to_csv(predictions.metrics,name+directory)
+    dump_metrics_to_csv(predictions.metrics,f"{directory}/{name}")
     logits = predictions.predictions
     labels = predictions.label_ids
     
@@ -168,12 +168,3 @@ def training_pipeline() -> Trainer:
         trainer.save_model(f"models/{dataset[1]}model")
         #RUN EVALUATION PIPELINE
         evaluation_pipeline(trainer=trainer,evaluation_set=tokenised_dataset,name=dataset[1])
-        return trainer 
-    
-    
-__all__ = ["training_pipeline"]
- 
-
-    
-    
-    

@@ -15,7 +15,7 @@ folderNames = ["RockPopElectronicFolk", "ClassicalCountryElectronicHip-Hop"]
 
 #LOAD A SPECIFIC DATASET
 def dataset_load() -> list[DatasetDict]:
-    baseNameDataset = "balancedSubSet10k"
+    baseNameDataset = "balancedSubset10k"
     dataset1 : DatasetDict = load_dataset("csv", data_files= f"{basepath}/{folderNames[0]}/{baseNameDataset}.csv")
     dataset2 : DatasetDict = load_dataset("csv", data_files= f"{basepath}/{folderNames[1]}/{baseNameDataset}.csv")
     return [dataset1,dataset2]

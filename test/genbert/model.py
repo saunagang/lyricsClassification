@@ -11,7 +11,7 @@ from pathlib import Path
 
 #BASEPATH FOR DATASETS
 basepath : str = "balancedDatasets"
-folderNames = ["ElectronicFolkPopRock", "ClassicalCountryElectronicHip-Hop"]
+folderNames = ["RockPopElectronicFolk", "ClassicalCountryElectronicHip-Hop"]
 
 #LOAD A SPECIFIC DATASET
 def dataset_load() -> list[DatasetDict]:

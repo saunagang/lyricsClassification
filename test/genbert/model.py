@@ -38,7 +38,9 @@ def dataset_load(datasetName : str) -> DatasetDict:
 model_name : str = "bert-base-uncased"
 
 #DOWNLOAD THE MODEL
-model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=4)
+def download_model():
+    model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=4)
+    return model
 
 #INITIALISES THE TOKENIZER
 tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -151,10 +153,12 @@ def evaluation_pipeline(trainer : Trainer ,evaluation_set : Dataset,name : str,d
 
 #PIPELINE FOR TRAINING 
 def training_pipeline() -> Trainer:
-     #DOWNLOAD THE DATASETS
-     download_datasets(data_structures=data_structures)
-     #ITERATE OVER DATASETS
-     for dataset in data_structures:
+    #DOWNLOAD THE MODEL
+    model = download_model()
+    #DOWNLOAD THE DATASETS
+    download_datasets(data_structures=data_structures)
+    #ITERATE OVER DATASETS
+    for dataset in data_structures:
         #LOAD THE DATASET
         datasetDictionary : DatasetDict = dataset_load(datasetName=dataset[1])
         #TOKENIZE THE DATASET

@@ -134,7 +134,7 @@ def evaluation_pipeline(trainer : Trainer ,evaluation_set : Dataset,name : str,d
         pass
     #EVALUATE THE MODEL
     predictions = trainer.predict(evaluation_set['test']) 
-    dump_metrics_to_csv(predictions.metrics,f"".join(name,directory))
+    dump_metrics_to_csv(predictions.metrics,name+directory)
     logits = predictions.predictions
     labels = predictions.label_ids
     

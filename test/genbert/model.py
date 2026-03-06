@@ -47,12 +47,12 @@ def tokenize_function (set : Dataset) :
 
 #THIS FUNCTION CONVERTS THE DATASET SO IT IS APPLICABLE TO BERT
 
-def convertDatasetForBERT(datasetDictionary : DatasetDict) -> Dataset: 
-    genres : list = list(set(dataset["train"]["genre"]))
+def convertDatasetForBERT(data : DatasetDict) -> Dataset: 
+    genres : list = list(set(data["train"]["genre"]))
     #set classlabel
     class_label : ClassLabel = ClassLabel(names=genres)
     #set the classlabel
-    dataset : Dataset = dataset["train"].cast_column("genre", class_label)
+    dataset : Dataset = data["train"].cast_column("genre", class_label)
     #create split
     dataset_split : Dataset = dataset.train_test_split(test_size=0.2, seed=69, stratify_by_column="genre")
     #tokenize the dataset

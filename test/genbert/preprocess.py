@@ -47,7 +47,7 @@ selectGenres3  : list[str] = ['Rock', 'Jazz', 'R&B','Hip-Hop']
 selectGenres4  : list[str] = ['Rock', 'Jazz', 'Classical', 'Hip-Hop']
 selectGenres5  : list[str] = ['Classical', 'Country','Electronic', 'Hip-Hop']
 
-sets : list[list[str]] = [selectGenres5, selectGenres2]
+sets : list[list[str]] = [selectGenres1, selectGenres5]
 
 def getBalancedSubset(frame : pd.DataFrame, subset :list[str])  -> pd.DataFrame:
     return frame[frame['genre'].isin(subset)].groupby('genre').sample(n=2500, random_state=69).reset_index(drop=True)

@@ -5,34 +5,31 @@ import numpy as np
 from evaluate import load, EvaluationModule
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
-import gdown
 import os
 import json
 from pathlib import Path
 
- 
-#LINKS TO THE DATASETS
-tuple_classical_country_electronic_hiphop : tuple[str,str] = "https://drive.google.com/file/d/1bAlexFnXYDtT8wDOwCqPUWsHu5n2DzPk/view?usp=share_link","ClassicalCountryHiphopElectronic"
-tuple_electronic_folk_pop_rock: tuple[str,str] = "https://drive.google.com/file/d/1tqPitL-NLcPby9kD8gKRp8p3aIJ8pHMq/view?usp=share_link", "ElectronicFolkPopRock"
-
 #BASEPATH FOR DATASETS
-basepath : str = "datasets"
+basepath : str = "balancedDatasets"
+folderNames = ["ElectronicFolkPopRock'", "ClassicalCountryElectronicHip-Hop"]
 
-#DATA STRUCTURE 
-data_structures : list[tuple] = [tuple_classical_country_electronic_hiphop,tuple_electronic_folk_pop_rock]
-
-#DOWNLOAD A SPECIFIC DATASET
-def download_datasets(data_structures : tuple):
-    for structure in data_structures:
-        os.makedirs(f"{basepath}", exist_ok=True)
-        gdown.download(structure[0], f"{basepath}/{structure[1]}.csv", fuzzy=True)
-        
-     
 #LOAD A SPECIFIC DATASET
-def dataset_load(datasetName : str) -> DatasetDict:
-    dataset : DatasetDict = load_dataset("csv", data_files= f"{basepath}/{datasetName}.csv")
-    return dataset
+def dataset_load() -> list[DatasetDict]:
+    baseNameDataset = "balancedSubSet10k"
+    dataset1 : DatasetDict = load_dataset("csv", data_files= f"{basepath}/{folderNames[0]}/{baseNameDataset}.csv")
+    dataset2 : DatasetDict = load_dataset("csv", data_files= f"{basepath}/{folderNames[1]}/{baseNameDataset}.csv")
+    return [dataset1,dataset2]
 
+#PRODUCES DATA TUPLES
+def getDataStructures(datalist :list[DatasetDict]):
+    first = datalist[0], folderNames[0]
+    second = datalist[1], folderNames[1] 
+    return [first, second]
+
+#RETURNS THE DATA STRUCTURES
+def initialiseDataStructures():
+    dataList :list[DatasetDict] = dataset_load()
+    return getDataStructures(dataList)
 
 #MODEL
 model_name : str = "bert-base-uncased"
@@ -156,7 +153,7 @@ def training_pipeline() -> Trainer:
     #DOWNLOAD THE MODEL
     model = download_model()
     #DOWNLOAD THE DATASETS
-    download_datasets(data_structures=data_structures)
+    data_structures = initialiseDataStructures()
     #ITERATE OVER DATASETS
     for dataset in data_structures:
         #LOAD THE DATASET

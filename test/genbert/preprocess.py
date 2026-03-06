@@ -61,7 +61,7 @@ def saveToDisk(frame : pd.DataFrame, subset : list[str]) :
     except FileExistsError : 
         pass
     
-    path : str = f'{prefix}/{"".join(subset)}/balancedSubset10k{"".join(subset)}.csv'
+    path : str = f'{prefix}/{"".join(subset)}/balancedSubset10k.csv'
     frame.to_csv(path, index=True, encoding='utf-8')
     
     

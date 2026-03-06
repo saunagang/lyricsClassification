@@ -157,7 +157,7 @@ def training_pipeline() -> Trainer:
     #ITERATE OVER DATASETS
     for dataset in data_structures:
         #TOKENIZE THE DATASET
-        tokenised_dataset : Dataset = convertDatasetForBERT(datasetDictionary=dataset)
+        tokenised_dataset : Dataset = convertDatasetForBERT(data=dataset)
         #CREATE TRAINING ARGUMENTS
         training_arguments : TrainingArguments = initialise_training_arguments()
         #CREATE TRAINER

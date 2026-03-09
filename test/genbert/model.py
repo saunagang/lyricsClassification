@@ -154,7 +154,7 @@ def training_pipeline() -> Trainer:
     model = download_model()
     #DOWNLOAD THE DATASETS
     data_structures = initialiseDataStructures()
-    print("Size: " +len(data_structures))
+    print("Size: " +str(len(data_structures)))
     #ITERATE OVER DATASETS
     for dataset in data_structures:
         #TOKENIZE THE DATASET

@@ -156,7 +156,7 @@ def evaluation_pipeline(trainer : Trainer ,evaluation_set : Dataset,name : str,d
     
 #LOAD A PRETRAINED MODEL
 def load_model_from_pretrained():
-    model_Classical = AutoModelForSequenceClassification.from_pretrained("/content/models/ClassicalCountryElectronicHip-Hopmodel/")
+    model_Classical = AutoModelForSequenceClassification.from_pretrained("/content/models/RockPopElectronicFolkmodel/")
     return model_Classical
 
 def visualize_embeddings(model, tokenizer):

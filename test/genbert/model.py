@@ -199,5 +199,53 @@ def visualize_embeddings(test_sentence : str = "do you believe in love after lov
         pass
     
     cls_explainer.visualize(f"{basepath}/visualisation.html")
+    
+# THESE VALUES WERE OBTAINED BY RUNNING THE MODELS MULTIPLE TIMES AND SAVING THE VALUES,
+# ALL VALUES ARE ROUNDED TO 3 DECIMAL POINTS
+# // FOR THE PAPER ONLY
+def accuracy_metrics(basePath : str = "metricsGraphData"):
+    x = [100,1000,2500,5000]
+    y_1 = [0.375,0.525,0.521,0.546]
+    y_2 = [0.400,0.749,0.774,0.771]
+    plt.figure()
+    
+    plt.plot(x, y_1, marker='o',color="blue")
+    plt.plot(x, y_2, marker='o', color="red")
+    plt.xlim(min(x), max(x))
+    plt.xticks(x)
+    plt.xlabel('Number of samples per genre')
+    plt.ylabel('Accuracy')
+    plt.grid(True)
+    try:
+        os.mkdir(basePath)
+    except FileExistsError:
+        pass
+    plt.savefig(f"{basePath}/accuracy")
+    plt.close()
+    
+def f1_macro_metrics(basePath : str = "metricsGraphData"):
+    x = [100,1000,2500,5000]
+    y_1 = [0.314,0.524,0.521,0.548]
+    y_2 = [0.343,0.750,0.774,0.771]
+    
+    plt.figure()
+    plt.plot(x, y_1, marker='o',color="blue")
+    plt.plot(x, y_2, marker='o', color="red")
+    plt.xlim(min(x), max(x))
+    plt.xticks(x)
+    plt.xlabel('Number of samples per genre')
+    plt.ylabel('F1-Macro')
+    plt.grid(True)
+    try:
+        os.mkdir(basePath)
+    except FileExistsError:
+        pass
+    plt.savefig(f"{basePath}/f1_macro")
+    plt.close()
+    
+    
+def compute_metrics_data():
+    accuracy_metrics()
+    f1_macro_metrics()
 
 

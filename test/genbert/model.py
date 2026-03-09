@@ -152,8 +152,18 @@ def evaluation_pipeline(trainer : Trainer ,evaluation_set : Dataset,name : str,d
     disp = ConfusionMatrixDisplay(confusion_matrix=cm)
     disp.plot(cmap="Blues")
     plt.savefig(f"{directory}/{name}/Confusion_matrix.png")
+    
+    
+#LOAD A PRETRAINED MODEL
+def load_model_from_pretrained():
+    model_Classical = AutoModelForSequenceClassification.from_pretrained("/content/models/ClassicalCountryElectronicHip-Hopmodel/")
+    return model_Classical
 
-
+def visualize_embeddings(model, tokenizer):
+    tokenizer = get_Tokenizer()
+    cls_explainer = SequenceClassificationExplainer(model, tokenizer)
+    word_attributions = cls_explainer("all the love is gone")
+    cls_explainer.visualize()
 
 #PIPELINE FOR TRAINING 
 def train_eval_pipeline() -> Trainer:
@@ -178,15 +188,3 @@ def train_eval_pipeline() -> Trainer:
         evaluation_pipeline(trainer=trainer,evaluation_set=tokenised_dataset,name=dataset[1])
         model = load_model_from_pretrained()   
         visualize_embeddings(model)
-        
-        
-#LOAD A PRETRAINED MODEL
-def load_model_from_pretrained():
-    model_Classical = AutoConfig.from_pretrained("/content/models/ClassicalCountryElectronicHip-Hopmodel/")
-    return model_Classical
-
-def visualize_embeddings(model, tokenizer):
-    tokenizer = get_Tokenizer()
-    cls_explainer = SequenceClassificationExplainer(model, tokenizer)
-    word_attributions = cls_explainer("all the love is gone")
-    cls_explainer.visualize()

@@ -62,13 +62,16 @@ def convertDatasetForBERT(data : DatasetDict) -> Dataset:
     return tokenized_dataset
 
 #METRICS USED IN THE TRAINING AND EVALUATION PROCESS
-
 #LOAD METRICS
-metric_f1 : EvaluationModule = load("f1")
-metric_acc : EvaluationModule = load("accuracy")
+def load_metrics() -> tuple[EvaluationModule,EvaluationModule]:
+    metric_f1 : EvaluationModule = load("f1")
+    metric_acc : EvaluationModule = load("accuracy")
+    return metric_f1, metric_acc
+    
 
 #METRICS TO EVALUATE ON
 def compute_metrics(eval_pred):
+    metric_f1, metric_acc = load_metrics()
     logits, labels = eval_pred
     preds = np.argmax(logits, axis=-1)
 
@@ -154,7 +157,6 @@ def training_pipeline() -> Trainer:
     model = download_model()
     #DOWNLOAD THE DATASETS
     data_structures = initialiseDataStructures()
-    print("Size: " +str(len(data_structures)))
     #ITERATE OVER DATASETS
     for dataset in data_structures:
         #TOKENIZE THE DATASET

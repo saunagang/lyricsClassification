@@ -144,7 +144,7 @@ def evaluation_pipeline(trainer : Trainer ,evaluation_set : Dataset,name : str,d
     cm = confusion_matrix(labels, preds)
     disp = ConfusionMatrixDisplay(confusion_matrix=cm)
     disp.plot(cmap="Blues")
-    plt.savefig(f"{directory}/{name}Confusion_matrix.png")
+    plt.savefig(f"{directory}/{name}/Confusion_matrix.png")
 
 
 

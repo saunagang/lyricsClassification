@@ -156,14 +156,22 @@ def evaluation_pipeline(trainer : Trainer ,evaluation_set : Dataset,name : str,d
     
 #LOAD A PRETRAINED MODEL
 def load_model_from_pretrained():
-    model_Classical = AutoModelForSequenceClassification.from_pretrained("/content/models/RockPopElectronicFolkmodel/")
+    model_Classical = AutoModelForSequenceClassification.from_pretrained("/content/models/RockPopElectronicFolkmodel/") 
     return model_Classical
 
-def visualize_embeddings(model):
+def visualize_embeddings(test_sentence : str = "do you believe in love after love"):
     tokenizer = get_Tokenizer()
+    model = load_model_from_pretrained()
     cls_explainer = SequenceClassificationExplainer(model, tokenizer)
-    word_attributions = cls_explainer("all the love is gone")
-    cls_explainer.visualize()
+    word_attributions = cls_explainer(test_sentence)
+    basepath : str = "embedding_visual"
+    try:
+        os.mkdir(basepath)
+    except FileExistsError:
+        pass
+    
+    cls_explainer.visualize(f"{basepath}/visualisation.html")
+    
 
 #PIPELINE FOR TRAINING 
 def train_eval_pipeline() -> Trainer:

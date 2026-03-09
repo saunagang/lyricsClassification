@@ -159,7 +159,7 @@ def load_model_from_pretrained():
     model_Classical = AutoModelForSequenceClassification.from_pretrained("/content/models/RockPopElectronicFolkmodel/")
     return model_Classical
 
-def visualize_embeddings(model, tokenizer):
+def visualize_embeddings(model):
     tokenizer = get_Tokenizer()
     cls_explainer = SequenceClassificationExplainer(model, tokenizer)
     word_attributions = cls_explainer("all the love is gone")

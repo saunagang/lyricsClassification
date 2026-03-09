@@ -1,6 +1,6 @@
 
 from datasets import load_dataset,ClassLabel, Dataset, DatasetDict
-from transformers import Trainer,AutoTokenizer,AutoModelForSequenceClassification,TrainingArguments,EarlyStoppingCallback
+from transformers import Trainer,AutoTokenizer,AutoModelForSequenceClassification,TrainingArguments,EarlyStoppingCallback,AutoConfig
 import numpy as np
 from evaluate import load, EvaluationModule
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import os
 import json
 from pathlib import Path
+from transformers_interpret import SequenceClassificationExplainer
 
 #BASEPATH FOR DATASETS
 basepath : str = "balancedDatasets"
@@ -39,9 +40,12 @@ def download_model():
     model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=4)
     return model
 
+def get_Tokenizer():
+    return AutoTokenizer.from_pretrained(model_name)
+
 #INITIALISES THE TOKENIZER
-tokenizer = AutoTokenizer.from_pretrained(model_name)
 def tokenize_function (set : Dataset) :
+    tokenizer = get_Tokenizer()
     return tokenizer(set['lyrics'], padding="max_length", truncation=True,max_length=512)
 
 
@@ -152,7 +156,7 @@ def evaluation_pipeline(trainer : Trainer ,evaluation_set : Dataset,name : str,d
 
 
 #PIPELINE FOR TRAINING 
-def training_pipeline() -> Trainer:
+def train_eval_pipeline() -> Trainer:
     #DOWNLOAD THE MODEL
     model = download_model()
     #DOWNLOAD THE DATASETS
@@ -172,3 +176,17 @@ def training_pipeline() -> Trainer:
         trainer.save_model(f"models/{dataset[1]}model")
         #RUN EVALUATION PIPELINE
         evaluation_pipeline(trainer=trainer,evaluation_set=tokenised_dataset,name=dataset[1])
+        model = load_model_from_pretrained()   
+        visualize_embeddings(model)
+        
+        
+#LOAD A PRETRAINED MODEL
+def load_model_from_pretrained():
+    model_Classical = AutoConfig.from_pretrained("/content/models/ClassicalCountryElectronicHip-Hopmodel/")
+    return model_Classical
+
+def visualize_embeddings(model, tokenizer):
+    tokenizer = get_Tokenizer()
+    cls_explainer = SequenceClassificationExplainer(model, tokenizer)
+    word_attributions = cls_explainer("all the love is gone")
+    cls_explainer.visualize()

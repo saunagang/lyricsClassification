@@ -49,8 +49,8 @@ selectGenres5  : list[str] = ['Classical', 'Country','Electronic', 'Hip-Hop']
 
 sets : list[list[str]] = [selectGenres5, selectGenres2]
 
-def getBalancedSubset(frame : pd.DataFrame, subset :list[str])  -> pd.DataFrame:
-    return frame[frame['genre'].isin(subset)].groupby('genre').sample(n=2500, random_state=69).reset_index(drop=True)
+def getBalancedSubset(frame : pd.DataFrame, subset :list[str],dataSetSize: int)  -> pd.DataFrame:
+    return frame[frame['genre'].isin(subset)].groupby('genre').sample(n=dataSetSize, random_state=69).reset_index(drop=True)
 
 
 def saveToDisk(frame : pd.DataFrame, subset : list[str]) :
@@ -65,14 +65,14 @@ def saveToDisk(frame : pd.DataFrame, subset : list[str]) :
     frame.to_csv(path, index=True, encoding='utf-8')
     
     
-def preProcessPipeLine(frame : pd.DataFrame, sets : list = sets): 
+def preProcessPipeLine( frame : pd.DataFrame, datasetSize:int=2500, sets : list = sets): 
     #preprocess the whole dataset
     frame : pd.DataFrame = lyricPreprocess(frame=frame)
     #iterate over both subsets needed for training
     for set in sets:
         subsetFrame : pd.DataFrame = frame
         #get a balanced dataset
-        subsetFrame : pd.DataFrame = getBalancedSubset(frame=subsetFrame, subset=set)
+        subsetFrame : pd.DataFrame = getBalancedSubset(frame=subsetFrame, subset=set, datasetSize=datasetSize)
         #print statistics (optional)
         if development_flag : 
             getStatisticsOnDataset(frame=subsetFrame)
